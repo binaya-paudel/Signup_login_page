@@ -8,6 +8,8 @@ import com.example.signup.and.login.service.AuthService;
 import com.example.signup.and.login.service.PasswordResetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import javax.security.auth.login.AccountLockedException;
 public class AuthController {
 
     private final AuthService authService;
+
 
     private final PasswordResetService passwordResetService;
 
@@ -40,5 +43,13 @@ public class AuthController {
             @RequestBody ResetPasswordRequestDto dto){
         passwordResetService.resetPassword(dto);
         return ResponseEntity.ok("Password has been reset successfully");
+    }
+
+    @Value("${mailusername}")
+    private String mailUsername;
+
+    @GetMapping("/test-env")
+    public String testEnv() {
+        return "Mail username: " + mailUsername;
     }
 }

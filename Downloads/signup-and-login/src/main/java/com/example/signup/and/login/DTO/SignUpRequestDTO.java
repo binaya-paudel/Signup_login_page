@@ -1,8 +1,6 @@
 package com.example.signup.and.login.DTO;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -24,8 +22,9 @@ public class SignUpRequestDTO {
     @Size(min = 8, message = "password must be at least 8 characters long")
     private String password;
 
-    @NotBlank(message="phone number is required")
-    @Size(min = 10, max = 15, message = "phone number must be between 10 and 15 characters")
+    @NotNull(message="phone number is required")
+    @Min(1000000000L)   // 10 digits minimum
+    @Max(999999999999999L)
     private Long phoneNumber;
 
 

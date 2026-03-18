@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class PasswordResetService {
     @Value("${app.reset-token.expiry-minutes}")
     private int expiryMinutes;
 
+    @Transactional
     public void initiatePasswordReset(ForgotPasswordRequestDto dto){
         Optional<UsersEntity> userOptional = userRepository.findByEmail(dto.getEmail());
 
@@ -48,9 +50,16 @@ public class PasswordResetService {
         resetToken.setUsed(false);
         passwordResetTokenRepository.save(resetToken);
 
-        emailService.sendPasswordResetEmail(user.getEmail(),token);
+        //emailService.sendPasswordResetEmail(user.getEmail(),token);
+        try {
+            emailService.sendPasswordResetEmail(user.getEmail(), token);
+            System.out.println("Email sent successfully to: " + user.getEmail());
+        } catch (Exception e) {
+            System.out.println("Email sending failed: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-
+  @Transactional
     public void resetPassword(ResetPasswordRequestDto dto){
         PasswordResetTokenEntity resetToken =
                 passwordResetTokenRepository.findByToken(dto.getToken())

@@ -26,10 +26,16 @@ public class EmailService {
                         + "\n\nIf you did not request this, ignore this email."
         );
         mailSender.send(message);
+
+        System.out.println("Sending email to: " + to); // ← add this
+        System.out.println("Frontend URL: " + frontendUrl); // ← add this
+        // rest of your code
+    }
     }
 
 
 
 
 
-}
+
+

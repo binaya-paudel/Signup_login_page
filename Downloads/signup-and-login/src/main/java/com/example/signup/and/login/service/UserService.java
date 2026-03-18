@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UserService {
     @Autowired
         private UserRepository userRepository;
-   // @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UsersEntity registerUser(SignUpRequestDTO dto){

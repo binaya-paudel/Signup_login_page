@@ -10,6 +10,7 @@ public class ResetPasswordRequestDto {
 @NotBlank(message = "token is required")
 private String token;
 
+
 @NotBlank(message = "new password is required")
     @Size(min=8, message = "new password must be at least 8 characters long")
     @JsonProperty("new_password")
